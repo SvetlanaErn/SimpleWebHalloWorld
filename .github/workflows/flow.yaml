@@ -1,0 +1,14 @@
+name: CD
+on: [push]
+jobs:
+  my_first_job:
+    name: Build and test job
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2 # checks out repository and downloads it to the runner 
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: build
+      run: dotnet build
