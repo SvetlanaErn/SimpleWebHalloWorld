@@ -1,8 +1,8 @@
-name: CD
+name: CI_CD
 on: [push]
 jobs:
-  my_first_job:
-    name: Build and test job
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -12,3 +12,19 @@ jobs:
         dotnet-version: 5.0.x
     - name: build
       run: dotnet build ./SimpleWebHalloWorld.sln
+  
+  Build-and-Push-Docker-Image:
+     name: Docker Build, Push
+     runs-on: ubuntu-latest
+     env: 
+      working-directory: .
+      
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1.10.0
+        with:
+         registry: ghcr.io
+         username: ${{github.actor}};
+         password: ${{secrets.GITHUB_TOKEN}}
